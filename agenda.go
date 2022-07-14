@@ -10,7 +10,7 @@ import (
 
 func getAgenda(fileName string) []string {
 
-	agendaRegex, _ := regexp.Compile(`(^[\+-]\W[\d.]+\W[ap]m.+$)`) // How we find agenda items.
+	agendaRegex, _ := regexp.Compile(`(^[\+-]\W[\d:.]+\W[ap]m.+$)`) // How we find agenda items.
 	file, err := os.Open(fileName)
 	if err != nil {
 		fmt.Printf("Unable to read file: %s - %s", fileName, err)
