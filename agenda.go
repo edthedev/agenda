@@ -8,8 +8,9 @@ import (
 	"regexp"
 )
 
-func searchForMatchesByLine(tagRegex regexp.Regexp, fileName string) []string {
+func getAgenda(fileName string) []string {
 
+	agendaRegex, _ := regexp.Compile(`(^[\+-]\W[\d.]+\W[ap]m.+$)`) // How we find agenda items.
 	file, err := os.Open(fileName)
 	if err != nil {
 		fmt.Printf("Unable to read file: %s - %s", fileName, err)
@@ -18,7 +19,7 @@ func searchForMatchesByLine(tagRegex regexp.Regexp, fileName string) []string {
 	var results = []string{}
 	var result = []string{}
 	for scanner.Scan() {
-		result = tagRegex.FindAllString(scanner.Text(), -1)
+		result = agendaRegex.FindAllString(scanner.Text(), -1)
 		results = append(results, result...)
 	}
 
@@ -30,10 +31,8 @@ func main() {
 	// maxFlag := flag.Int("max", 5, "Maximum number of lines to list.")
 	flag.Parse()
 
-	agendaRegex, _ := regexp.Compile(`(^[\+-]\W[\d.]+\W[ap]m.+$)`) // How we find agenda items.
-
 	var found = []string{}
-	found = searchForMatchesByLine(*agendaRegex, *agendaFile)
+	found = getAgenda(*agendaFile)
 	// TODO: Add a flag the removes line breaks, to allow files to be passed to Vim
 
 	var item string

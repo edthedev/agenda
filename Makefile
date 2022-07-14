@@ -8,4 +8,5 @@ clean:
 	rm agenda.exe
 
 test:
-	go run .\agenda.go -path $1
+	go test
+	go run agenda.go -path agenda_test_file.md
