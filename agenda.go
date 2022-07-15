@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"os"
 	"regexp"
+	"strings"
+	"time"
 )
 
 func getAgenda(fileName string) []string {
@@ -26,18 +28,26 @@ func getAgenda(fileName string) []string {
 	return results
 }
 
+func getAgendaFile(agendaDate time.Time, format string) string {
+	year, month, day := agendaDate.Date()
+	var result = strings.Replace(format, "{YYYY}", fmt.Sprintf("%d", year), 1)
+	result = strings.Replace(result, "{MM}", fmt.Sprintf("%02d", month), 1)
+	result = strings.Replace(result, "{DD}", fmt.Sprintf("%02d", day), 1)
+	return result
+}
+
 func main() {
 	code := 0
 	defer func() {
 		os.Exit(code)
 	}()
 	agendaFile := flag.String("path", "", "Search this file agenda lines.")
-	// maxFlag := flag.Int("max", 5, "Maximum number of lines to list.")
 	flag.Parse()
 
+	fileName := getAgendaFile(time.Now(), *agendaFile)
+
 	var found = []string{}
-	found = getAgenda(*agendaFile)
-	// TODO: Add a flag the removes line breaks, to allow files to be passed to Vim
+	found = getAgenda(fileName)
 
 	var item string
 	for _, item = range found {
