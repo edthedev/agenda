@@ -27,6 +27,10 @@ func getAgenda(fileName string) []string {
 }
 
 func main() {
+	code := 0
+	defer func() {
+		os.Exit(code)
+	}()
 	agendaFile := flag.String("path", "", "Search this file agenda lines.")
 	// maxFlag := flag.Int("max", 5, "Maximum number of lines to list.")
 	flag.Parse()
