@@ -2,6 +2,12 @@
 
 Searches a file for an agenda and prints it.
 
+## Install
+
+```bash
+go install github.com/edthedev/agenda@latest
+```
+
 ## Use
 
 Example Bash profile use:
